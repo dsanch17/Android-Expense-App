@@ -144,7 +144,7 @@
         android:layout_alignEnd="@+id/labelReceipt"
         android:src="@drawable/gallery_icon"
         android:background="@drawable/gallery_icon"
-        android:onClick="selectImage"
+        android:onClick="imageButton"
         android:maxHeight="80dp"
         android:maxWidth="75dp"
         android:scaleType="fitXY" />
