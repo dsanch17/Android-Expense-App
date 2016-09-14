@@ -1,5 +1,12 @@
 package com.itcs4180.hw2_expenseapp;
 
+/**
+ * ITCS 4180 Homework2
+ * HW2.zip
+ * Dallas Sanchez
+ * Patrick King
+ */
+
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -79,19 +86,7 @@ public class ShowExpenseActivity extends AppCompatActivity {
         SimpleDateFormat dateFormatter = new SimpleDateFormat(MainActivity.DATE_FORMAT);
         dateView.setText(dateFormatter.format(expense.date));
 
-        //should work but it doesn't because of permissions
         imageView.setImageURI(expense.img);
-
-        /** actually loads the image but crashes only sometimes???
-         Drawable receiptImage;
-        try {
-            InputStream inputStream = this.getContentResolver().openInputStream(expense.img);
-            receiptImage = Drawable.createFromStream(inputStream, expense.img.toString());
-        } catch (FileNotFoundException e) {
-            receiptImage = getResources().getDrawable(R.drawable.gallery_icon);
-        }
-        imageView.setImageDrawable(receiptImage);
-         */
 
 
     }

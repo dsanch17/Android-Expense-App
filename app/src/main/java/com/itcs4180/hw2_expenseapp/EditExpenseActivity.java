@@ -1,12 +1,18 @@
 package com.itcs4180.hw2_expenseapp;
 
+/**
+ * ITCS 4180 Homework2
+ * HW2.zip
+ * Dallas Sanchez
+ * Patrick King
+ */
+
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
@@ -24,8 +30,6 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,14 +56,9 @@ public class EditExpenseActivity extends AppCompatActivity {
     AlertDialog.Builder alertBuilder;
     AlertDialog alert;
 
-    int edittedIndex;
+    int editedIndex;
 
 
-    /** TODO
-     * test the switcher more.
-     * make it so it doesn't crash if you have no expenses. or maybe disable the button from main
-     * delete functionallity
-     */
     //datePicker Code *** Declare an innerclass to handle the calender dialog
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
@@ -149,7 +148,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
         receiptImage.setImageURI(imageUri);
 
-        edittedIndex = i;
+        editedIndex = i;
         activateButtons(true);
     }
 
@@ -273,7 +272,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
                 Intent returnData = new Intent();
                 returnData.putExtra(MainActivity.KEY_EXPENSE, newExpense);
-                returnData.putExtra(MainActivity.KEY_EXPENSE_CHANGED_INDEX, edittedIndex);
+                returnData.putExtra(MainActivity.KEY_EXPENSE_CHANGED_INDEX, editedIndex);
                 this.setResult(RESULT_OK, returnData);
                 finish();
             }

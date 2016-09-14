@@ -1,5 +1,12 @@
 package com.itcs4180.hw2_expenseapp;
 
+/**
+ * ITCS 4180 Homework2
+ * HW2.zip
+ * Dallas Sanchez
+ * Patrick King
+ */
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;

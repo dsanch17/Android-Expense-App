@@ -1,5 +1,12 @@
 package com.itcs4180.hw2_expenseapp;
 
+/**
+ * ITCS 4180 Homework2
+ * HW2.zip
+ * Dallas Sanchez
+ * Patrick King
+ */
+
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -36,17 +43,19 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+
+
 public class AddExpenseActivity extends AppCompatActivity {
 
-    //static EditText to be set by the datePicker dialog
-
+    //static EditText and Date to be set by the datePicker dialog
     public static EditText dateOutput;
+    public static Date expenseDate;
+
     ImageButton receiptImage;
     Uri imageUri;
     EditText nameBox;
     EditText amountBox;
     Spinner categoryBox;
-    public static Date expenseDate;
 
     AlertDialog.Builder alertBuilder;
     AlertDialog alert;

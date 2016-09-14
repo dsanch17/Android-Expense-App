@@ -1,5 +1,12 @@
 package com.itcs4180.hw2_expenseapp;
 
+/**
+ * ITCS 4180 Homework2
+ * HW2.zip
+ * Dallas Sanchez
+ * Patrick King
+ */
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

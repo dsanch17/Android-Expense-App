@@ -1,12 +1,16 @@
 package com.itcs4180.hw2_expenseapp;
 
+
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.Date;
 
 /**
- * Created by Dallas on 9/9/16.
+ * ITCS 4180 Homework2
+ * HW2.zip
+ * Dallas Sanchez
+ * Patrick King
  */
 public class Expense implements Parcelable, Comparable<Expense>  {
     String name;
