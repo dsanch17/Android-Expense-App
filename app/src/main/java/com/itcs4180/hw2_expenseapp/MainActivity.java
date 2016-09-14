@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String KEY_EXPENSE_CHANGED_INDEX = "expense at index was edited or deleted";
 
 
-    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
 
 
     ArrayList<Expense> expenseList = new ArrayList<>();
@@ -115,10 +115,10 @@ public class MainActivity extends AppCompatActivity {
             Expense editedExpense = (Expense) data.getExtras().getParcelable(KEY_EXPENSE);
             int editedIndex = data.getExtras().getInt(KEY_EXPENSE_CHANGED_INDEX);
 
-            //remove the expense at that index, add the new (altered) expense, then sort the list again
-            expenseList.remove(editedIndex);
-            expenseList.add(editedExpense);
+            //edit the expense at the index selected to match the returned data
+            expenseList.get(editedIndex).editSelfToMatchOther(editedExpense);
 
+            //sort the list again in case the name changed
             Collections.sort(expenseList);
         }
         

@@ -25,6 +25,15 @@ public class Expense implements Parcelable, Comparable<Expense>  {
         this.categoryPosition = categoryPosition;
     }
 
+    public void editSelfToMatchOther(Expense other) {
+        this.name = other.name;
+        this.category = other.category;
+        this.amount = other.amount;
+        this.date = other.date;
+        this.img = other.img;
+        this.categoryPosition = other.categoryPosition;
+    }
+
     protected Expense(Parcel in) {
         name = in.readString();
         category = in.readString();
@@ -61,8 +70,12 @@ public class Expense implements Parcelable, Comparable<Expense>  {
         parcel.writeInt(categoryPosition);
     }
 
+    //sort by name then date
     @Override
     public int compareTo(Expense other) {
-        return this.name.compareToIgnoreCase(other.name);
+        int nameCompare = this.name.compareToIgnoreCase(other.name);
+        if (nameCompare == 0)
+            return this.date.compareTo(other.date);
+        else return nameCompare;
     }
 }

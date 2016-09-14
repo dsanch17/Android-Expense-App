@@ -115,7 +115,7 @@ public class EditExpenseActivity extends AppCompatActivity {
         }
 
         AlertDialog.Builder alertSelectorBuilder = new AlertDialog.Builder(this);
-                alertSelectorBuilder.setCancelable(false)
+                alertSelectorBuilder.setCancelable(false).setTitle("Pick an Expense")
                 .setItems(expenseListNames, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
