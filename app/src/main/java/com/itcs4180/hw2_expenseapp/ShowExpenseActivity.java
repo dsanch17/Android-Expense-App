@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ShowExpenseActivity extends AppCompatActivity {
 
@@ -72,7 +73,7 @@ public class ShowExpenseActivity extends AppCompatActivity {
         nameView.setText(expense.name);
         categoryView.setText(expense.category);
 
-        String amtText = "" + expense.amount;
+        String amtText = "$" + (String.format(Locale.ENGLISH, "%.2f", expense.amount));
         amountView.setText(amtText);
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat(MainActivity.DATE_FORMAT);

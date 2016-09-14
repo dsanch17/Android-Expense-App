@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class AddExpenseActivity extends AppCompatActivity {
 
@@ -168,33 +169,11 @@ public class AddExpenseActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Code to handle the result from the Receipt Image picker request
         if (requestCode == MainActivity.REQUEST_IMAGE_GET && resultCode == RESULT_OK) {
-            /**
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
                 Uri fullPhotoUri = data.getData();
                 receiptImage.setImageURI(fullPhotoUri);
                 imageUri = fullPhotoUri;
-            } else { */
-                Uri fullPhotoUri = data.getData();
-                receiptImage.setImageURI(fullPhotoUri);
-                imageUri = fullPhotoUri;
-            //}
 
-            /**
-            File tempFile = new File(this.getFilesDir().getAbsolutePath(), "temp_image");
-
-            //Copy Uri contents into temp File.
-            try {
-                tempFile.createNewFile();
-                copyAndClose(this.getContentResolver().openInputStream(data.getData()),new FileOutputStream(tempFile));
-
-                this.getContentResolver().openInputStream(data.getData())
-            } catch (IOException e) {
-                //Log Error
-            }
-
-            //Now fetch the new URI
-            Uri newUri = Uri.fromFile(tempFile);
-             */
         }
     }
 
@@ -226,7 +205,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                 alertBuilder.setMessage("Please enter an expense name.");
                 alert = alertBuilder.create();
                 alert.show();
-            } else {
+            } else if (validateNumberString(amtString)) {
                 Double expenseAmount = Double.parseDouble(amtString);
 
                 //compile the inputs into a Expense object and use putExtra to send it back to MainActivity
@@ -239,6 +218,22 @@ public class AddExpenseActivity extends AppCompatActivity {
                 finish();
             }
 
+        }
+    }
+
+    private boolean validateNumberString(String num) {
+
+        if(Pattern.matches("^[0-9]+(\\.[0-9]{1,2})?$", num)) {
+            Log.d("test", num);
+            return true;
+        }
+        else {
+            alertBuilder.setMessage("Invalid input. Please enter a number with up to 2 decimal places");
+            alert = alertBuilder.create();
+            alert.show();
+
+            Log.d("test", "Invalid input: " + num);
+            return false;
         }
     }
 

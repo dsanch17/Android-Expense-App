@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class DeleteExpenseActivity extends AppCompatActivity {
 
@@ -95,7 +96,7 @@ public class DeleteExpenseActivity extends AppCompatActivity {
     void setViewToEditExpense (int i) {
         Expense exp = expenseList.get(i);
         nameBox.setText(exp.name);
-        amountBox.setText(Double.toString(exp.amount));
+        amountBox.setText((String.format(Locale.ENGLISH, "%.2f", exp.amount)));
         categoryBox.setSelection(exp.categoryPosition);
         expenseDate = exp.date;
         SimpleDateFormat dateFormatter = new SimpleDateFormat(MainActivity.DATE_FORMAT);

@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class EditExpenseActivity extends AppCompatActivity {
 
@@ -135,7 +137,7 @@ public class EditExpenseActivity extends AppCompatActivity {
         Expense exp = expenseList.get(i);
 
         nameBox.setText(exp.name);
-        amountBox.setText(Double.toString(exp.amount));
+        amountBox.setText((String.format(Locale.ENGLISH, "%.2f", exp.amount)));
         categoryBox.setSelection(exp.categoryPosition);
 
         expenseDate = exp.date;
@@ -263,7 +265,7 @@ public class EditExpenseActivity extends AppCompatActivity {
                 alertBuilder.setMessage("Please enter an expense name.");
                 alert = alertBuilder.create();
                 alert.show();
-            } else {
+            } else if (validateNumberString(amtString)) {
                 Double expenseAmount = Double.parseDouble(amtString);
 
                 //compile the inputs into a Expense object and use putExtra to send it back to MainActivity
@@ -282,5 +284,21 @@ public class EditExpenseActivity extends AppCompatActivity {
     public void buttonCancel(View v) {
         this.setResult(RESULT_CANCELED);
         finish();
+    }
+
+    private boolean validateNumberString(String num) {
+
+        if(Pattern.matches("^[0-9]+(\\.[0-9]{1,2})?$", num)) {
+            Log.d("test", num);
+            return true;
+        }
+        else {
+            alertBuilder.setMessage("Invalid input. Please enter a number with up to 2 decimal places");
+            alert = alertBuilder.create();
+            alert.show();
+
+            Log.d("test", "Invalid input: " + num);
+            return false;
+        }
     }
 }
