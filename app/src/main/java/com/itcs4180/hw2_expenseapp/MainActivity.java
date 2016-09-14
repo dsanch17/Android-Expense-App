@@ -16,8 +16,9 @@ public class MainActivity extends AppCompatActivity {
     public static final int CODE_EDIT = 102;
     public static final int CODE_DELETE = 103;
 
+    public static final int PERM_EXT_STORAGE = 4001;
+
     public static final int REQUEST_IMAGE_GET = 1;
-    public static final int REQUEST_DOC_OPEN = 2;
 
 
     public static final String KEY_EXPENSE = "This is an expense";

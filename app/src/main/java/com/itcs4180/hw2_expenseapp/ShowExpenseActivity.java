@@ -96,19 +96,17 @@ public class ShowExpenseActivity extends AppCompatActivity {
     }
 
     public void nextButton (View view) {
-        if (currentIndex == expenseList.size() - 1)
-            currentIndex = 0;
-        else
+        if (currentIndex != expenseList.size() - 1) {
             currentIndex++;
-        displayExpense(currentIndex);
+            displayExpense(currentIndex);
+        }
     }
 
     public void previousButton (View view) {
-        if (currentIndex == 0)
-            currentIndex = expenseList.size() - 1;
-        else
+        if (currentIndex != 0) {
             currentIndex--;
-        displayExpense(currentIndex);
+            displayExpense(currentIndex);
+        }
     }
 
     public void firstButton (View view) {

@@ -102,20 +102,8 @@ public class DeleteExpenseActivity extends AppCompatActivity {
         dateOutput.setText(dateFormatter.format(expenseDate));
         imageUri = exp.img;
 
-        /** Doesn't work but it should. gives a permission error even though the permission is in the manifest*/
         receiptImage.setImageURI(imageUri);
 
-
-        /** actually loads the image but crashes only sometimes???
-        Drawable newImage;
-        try {
-            InputStream inputStream = this.getContentResolver().openInputStream(imageUri);
-            newImage = Drawable.createFromStream(inputStream, imageUri.toString());
-        } catch (FileNotFoundException e) {
-            newImage = getResources().getDrawable(R.drawable.gallery_icon);
-        }
-        receiptImage.setImageDrawable(newImage);
-        */
         edittedIndex = i;
 
         buttonDelete.setEnabled(true);

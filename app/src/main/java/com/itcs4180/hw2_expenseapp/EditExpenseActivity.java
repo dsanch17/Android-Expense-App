@@ -1,12 +1,17 @@
 package com.itcs4180.hw2_expenseapp;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -141,20 +147,6 @@ public class EditExpenseActivity extends AppCompatActivity {
 
         receiptImage.setImageURI(imageUri);
 
-        /** actually loads the image but crashes only sometimes???
-
-         Drawable newImage;
-        try {
-            InputStream inputStream = this.getContentResolver().openInputStream(exp.img);
-            newImage = Drawable.createFromStream(inputStream, exp.img.toString());
-        } catch (FileNotFoundException e) {
-            newImage = getResources().getDrawable(R.drawable.gallery_icon);
-        }
-
-        receiptImage.setImageDrawable(newImage);
-         */
-
-
         edittedIndex = i;
         activateButtons(true);
     }
@@ -176,32 +168,74 @@ public class EditExpenseActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    public void editImageButton(View v) {
+        checkPermission();
+    }
+
 
     //called by the receipt ImageButton
-    public void selectImage(View v) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+    void selectImage() {
+        Intent intent;
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        else
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, MainActivity.REQUEST_IMAGE_GET);
         }
     }
 
+    void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MainActivity.PERM_EXT_STORAGE);
+        } else
+            selectImage();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MainActivity.PERM_EXT_STORAGE: {
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // external storage related task you need to do.
+                    selectImage();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Code to handle the result from the Receipt Image picker request
         if (requestCode == MainActivity.REQUEST_IMAGE_GET && resultCode == RESULT_OK) {
             Uri fullPhotoUri = data.getData();
-            // Do work with photo saved at fullPhotoUri
             receiptImage.setImageURI(fullPhotoUri);
             imageUri = fullPhotoUri;
         }
     }
-    /**update to edit
-     *
-     *
-     *
-     *
-     * */
+
+
     //called from the onclick() of the Add Expense button and used to finish return to the main activity
     public void finishEditExpense(View v) {
         String expenseName = nameBox.getText().toString();

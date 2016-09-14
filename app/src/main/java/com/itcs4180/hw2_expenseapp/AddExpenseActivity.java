@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
@@ -32,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class AddExpenseActivity extends AppCompatActivity {
 
@@ -52,6 +54,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
@@ -67,7 +70,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             expenseDate = new GregorianCalendar(year, month, day).getTime();
-            SimpleDateFormat dateFormatter = new SimpleDateFormat(MainActivity.DATE_FORMAT);
+            SimpleDateFormat dateFormatter = new SimpleDateFormat(MainActivity.DATE_FORMAT, Locale.ENGLISH);
             dateOutput.setText(dateFormatter.format(expenseDate));
 
         }
@@ -91,10 +94,12 @@ public class AddExpenseActivity extends AppCompatActivity {
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         expenseDate = new GregorianCalendar(year, month, day).getTime();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat(MainActivity.DATE_FORMAT);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(MainActivity.DATE_FORMAT, Locale.ENGLISH);
         dateOutput.setText(dateFormatter.format(expenseDate));
 
-        imageUri = Uri.parse("android.resource://@android:drawable/ic_menu_gallery");
+        imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                "://" + getResources().getResourcePackageName(R.drawable.gallery_icon)
+                + '/' + getResources().getResourceTypeName(R.drawable.gallery_icon) + '/' + getResources().getResourceEntryName(R.drawable.gallery_icon) );
 
 
     }
@@ -127,7 +132,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     void checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(AddExpenseActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MainActivity.PERM_EXT_STORAGE);
         } else
             selectImage();
     }
@@ -136,7 +141,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case 1: {
+            case MainActivity.PERM_EXT_STORAGE: {
 
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
@@ -150,7 +155,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                    Toast.makeText(AddExpenseActivity.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -163,18 +168,16 @@ public class AddExpenseActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Code to handle the result from the Receipt Image picker request
         if (requestCode == MainActivity.REQUEST_IMAGE_GET && resultCode == RESULT_OK) {
-
+            /**
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                final int takeFlags = data.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
                 Uri fullPhotoUri = data.getData();
                 receiptImage.setImageURI(fullPhotoUri);
                 imageUri = fullPhotoUri;
-            } else {
+            } else { */
                 Uri fullPhotoUri = data.getData();
-                //  Do work with photo saved at fullPhotoUri
                 receiptImage.setImageURI(fullPhotoUri);
                 imageUri = fullPhotoUri;
-            }
+            //}
 
             /**
             File tempFile = new File(this.getFilesDir().getAbsolutePath(), "temp_image");
